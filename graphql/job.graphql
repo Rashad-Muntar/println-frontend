@@ -1,0 +1,9 @@
+mutation createJob($input: NewJob!) {
+  createJob(input: $input) {
+    Id
+    onGoing
+    completed
+    description
+    file
+  }
+}

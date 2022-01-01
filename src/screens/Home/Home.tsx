@@ -38,7 +38,7 @@ const handlePresentModalPress = useCallback((index:number) => {
   return (
     <View style={styles.container}>
       <Navbar username={user.username}/>
-      <Caro />
+      <Caro textColor={Colors.light.primary} header=' Printing made easer' subText='Just upload your document we will take care of the rest' img={require("../../assets/images/header.png")}/>
       <View style={styles.iconArea}>
         <Bar
           isIcon={true}

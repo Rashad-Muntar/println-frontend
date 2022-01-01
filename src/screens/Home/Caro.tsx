@@ -3,15 +3,21 @@ import { Dimensions, Text, View, ImageBackground, StyleSheet } from 'react-nativ
 import { Colors } from '../../assets/Constants';
 import Carousel from 'react-native-reanimated-carousel';
 
-const Caro = () => {
+interface Props {
+    img?: any
+    header?:string
+    subText?:string
+    textColor?:string
+}
+const Caro = ({img, header, subText, textColor }:Props) => {
     const width = Dimensions.get('window').width;
     return (
         <View style={styles.Container}>
           
-            <ImageBackground style={styles.img} source={require('../../assets/images/header.png')} >
+            <ImageBackground style={styles.img} source={img} >
             <View style={styles.textWrap}>
-            <Text style={styles.header}>Printing made easer</Text>
-            <Text style={styles.subText}>Just upload your document we will take care of the rest</Text>
+            <Text style={{...styles.header, color:textColor}}>{header}</Text>
+            <Text style={{color:textColor}}>{subText}</Text>
             </View>
             </ImageBackground> 
             {/* <Carousel
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
         height: "25%",
         borderRadius: 10,
         overflow: 'hidden',
-        marginVertical: 10,
+        // marginVertical: 10,
     },
     img: {
         width: '100%',
@@ -61,11 +67,8 @@ const styles = StyleSheet.create({
     header:{
         fontSize: 30,
         fontWeight: "700",
-        color: Colors.light.primary
+        
     },
-    subText:{
-        color: Colors.light.primary
-    }
 });
 
 export default Caro
