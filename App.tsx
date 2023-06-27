@@ -45,9 +45,13 @@ function App(): JSX.Element {
 
   return (
     <ApolloProvider client={client}>
-       <View>
+   <SafeAreaView>
+   <StatusBar
+  barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+  backgroundColor={backgroundStyle.backgroundColor}
+/>
       <User />
-    </View>
+      </SafeAreaView>
     </ApolloProvider>
   );
 }
