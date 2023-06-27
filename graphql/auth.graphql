@@ -1,0 +1,17 @@
+mutation signup($input: NewUser!){
+  signup(input: $input){
+    Id
+    username
+    email
+    password
+  }
+}
+
+query GetUsers {
+  users{
+     Id
+    username
+    email
+    
+  }
+}
