@@ -34,6 +34,7 @@
     "@graphql-codegen/typescript-graphql-request": "^5.0.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@react-native-cookies/cookies": "^6.2.1",
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.6",
     "@tsconfig/react-native": "^3.0.0",

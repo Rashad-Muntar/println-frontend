@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import Input from '../components/share/Input';
 import { LoginSchema } from '../components/share/FormValidations';
+import CookieManager from '@react-native-cookies/cookies';
 
 const Login = () => {
     const [login] = useLoginMutation();
@@ -18,7 +19,7 @@ const Login = () => {
      onSubmit={async(values, {resetForm}) => {
         console.log(values)
       try {
-        await login({
+        const response = await login({
           variables: {
             input: {
               email: values.email,
@@ -26,8 +27,13 @@ const Login = () => {
             },
           },
         });
-        console.log("Login was successful")
+        console.log(response.data?.login)
         resetForm({ values: '' })
+        CookieManager.set("http://localhost:8080/query", {
+            name: 'token',
+            value: response?.data?.login,
+          })
+          navigation.navigate("Home")
       } catch (error:any) {
         console.log(error.message)
       }
