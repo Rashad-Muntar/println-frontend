@@ -1,13 +1,14 @@
 import React from 'react'
 import { Text, View, Button, StyleSheet } from 'react-native'
 import { useSignupMutation } from '../../generated/graphql';
+import { useNavigation } from '@react-navigation/native';
 import { Formik} from 'formik';
 import Input from '../components/share/Input';
 import { SignupSchema } from '../components/share/FormValidations';
 
 const Signup = () => {
     const [signup] = useSignupMutation();
-
+    const navigation = useNavigation();
     return  (
 <View style={styles.container}>
      <Text style={styles.head}>Sign up</Text>
@@ -60,12 +61,15 @@ const Signup = () => {
         </Text>
         <Input
            onChangeText={handleChange('password')}
-           onBlur={handleBlur('email')}
+           onBlur={handleBlur('password')}
            secureTextEntry={true}
            value={values.password}
            placeholder='********'
          />
       {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+      <View style={styles.ctaWrap}>
+        <Text>Already have an accout? <Text style={styles.login} onPress={() => navigation.navigate("Login")}>Login</Text></Text>
+      </View>
          <Button onPress={handleSubmit} title="Submit" />
        </View>
      )}
@@ -93,12 +97,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10
-
     },
     error: {
       color: 'red',
       marginBottom: 10,
     },
+    login:{
+      color: 'blue',
+    },
+    ctaWrap:{
+      alignItems: "flex-end"
+    }
 })
 
 export default Signup

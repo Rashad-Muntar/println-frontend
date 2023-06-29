@@ -1,25 +1,26 @@
 import React, { useState } from 'react'
 import { Text, View, Button, StyleSheet, TextInput } from 'react-native'
 import { useLoginMutation } from '../../generated/graphql';
+import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import Input from '../components/share/Input';
-import { SignupSchema } from '../components/share/FormValidations';
+import { LoginSchema } from '../components/share/FormValidations';
 
 const Login = () => {
     const [login] = useLoginMutation();
-
+    const navigation = useNavigation();
     return  (
 <View style={styles.container}>
-     <Text style={styles.head}>Sign up</Text>
+     <Text style={styles.head}>Login</Text>
      <Formik
-     validationSchema={SignupSchema}
-     initialValues={{ username:'', email: '', password: ''}}
+     validationSchema={LoginSchema}
+     initialValues={{ email: '', password: ''}}
      onSubmit={async(values, {resetForm}) => {
+        console.log(values)
       try {
         await login({
           variables: {
             input: {
-              username: values.username,
               email: values.email,
               password: values.password
             },
@@ -42,6 +43,7 @@ const Login = () => {
            onBlur={handleBlur('email')}
            value={values.email}
            placeholder='jondore@gmail.com'
+           keyboardType='email-address'
          />
            
          <Text style={styles.label}>
@@ -49,12 +51,14 @@ const Login = () => {
         </Text>
         <Input
            onChangeText={handleChange('password')}
-           onBlur={handleBlur('email')}
+           onBlur={handleBlur('password')}
            secureTextEntry={true}
            value={values.password}
            placeholder='********'
          />
-    
+           <View style={styles.ctaWrap}>
+        <Text>You don't have an accout yet? <Text style={styles.login} onPress={() => navigation.navigate("Signup")}>Register</Text></Text>
+      </View>
          <Button onPress={handleSubmit} title="Submit" />
        </View>
      )}
@@ -88,6 +92,12 @@ const styles = StyleSheet.create({
         color: 'red',
         marginBottom: 10,
       },
+      login:{
+        color: 'blue',
+      },
+      ctaWrap:{
+        alignItems: "flex-end"
+      }
 })
 
 export default Login
