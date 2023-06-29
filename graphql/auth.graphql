@@ -7,6 +7,10 @@ mutation signup($input: NewUser!){
   }
 }
 
+mutation login($input: LoginUser!){
+  login(input: $input)
+}
+
 query GetUsers {
   users{
      Id

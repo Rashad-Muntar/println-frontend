@@ -1,12 +1,12 @@
-import React from 'react'
-import { Text, View, Button, StyleSheet } from 'react-native'
-import { useSignupMutation } from '../../generated/graphql';
-import { Formik} from 'formik';
+import React, { useState } from 'react'
+import { Text, View, Button, StyleSheet, TextInput } from 'react-native'
+import { useLoginMutation } from '../../generated/graphql';
+import { Formik } from 'formik';
 import Input from '../components/share/Input';
 import { SignupSchema } from '../components/share/FormValidations';
 
-const Signup = () => {
-    const [signup] = useSignupMutation();
+const Login = () => {
+    const [login] = useLoginMutation();
 
     return  (
 <View style={styles.container}>
@@ -16,7 +16,7 @@ const Signup = () => {
      initialValues={{ username:'', email: '', password: ''}}
      onSubmit={async(values, {resetForm}) => {
       try {
-        await signup({
+        await login({
           variables: {
             input: {
               username: values.username,
@@ -25,7 +25,7 @@ const Signup = () => {
             },
           },
         });
-        console.log("Sign up was successful")
+        console.log("Login was successful")
         resetForm({ values: '' })
       } catch (error:any) {
         console.log(error.message)
@@ -34,16 +34,6 @@ const Signup = () => {
    >
      {({ handleChange, handleBlur, handleSubmit, errors, values }) => (
        <View style={styles.inputWrap}>
-          <Text style={styles.label}>
-             Enter Username
-        </Text>
-        <Input
-           onChangeText={handleChange('username')}
-           onBlur={handleBlur('username')}
-           value={values.username}
-           placeholder='jondoe'
-         />
-         {errors.username && <Text style={styles.error}>{errors.username}</Text>}
         <Text style={styles.label}>
              Enter Email
         </Text>
@@ -52,9 +42,8 @@ const Signup = () => {
            onBlur={handleBlur('email')}
            value={values.email}
            placeholder='jondore@gmail.com'
-           keyboardType='email-address'
          />
-           {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+           
          <Text style={styles.label}>
              Enter password
         </Text>
@@ -65,7 +54,7 @@ const Signup = () => {
            value={values.password}
            placeholder='********'
          />
-      {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+    
          <Button onPress={handleSubmit} title="Submit" />
        </View>
      )}
@@ -96,9 +85,9 @@ const styles = StyleSheet.create({
 
     },
     error: {
-      color: 'red',
-      marginBottom: 10,
-    },
+        color: 'red',
+        marginBottom: 10,
+      },
 })
 
-export default Signup
+export default Login
