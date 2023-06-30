@@ -5,8 +5,6 @@ import React from 'react'
 
 
 function User() {
-    const {data, loading, error} = useGetUsersQuery()
-    console.log(data)
   return (
     <Text>Usersjdfhjsdkhjsjghsjkhj</Text>
   )
