@@ -1,5 +1,5 @@
-mutation signup($input: NewUser!){
-  signup(input: $input){
+mutation signup($input: NewUser!) {
+  signup(input: $input) {
     Id
     username
     email
@@ -7,15 +7,21 @@ mutation signup($input: NewUser!){
   }
 }
 
-mutation login($input: LoginUser!){
-  login(input: $input)
+mutation login($input: LoginUser!) {
+  login(input: $input) {
+    user {
+      Id
+      username
+      email
+    }
+    token
+  }
 }
 
 query GetUsers {
-  users{
-     Id
+  users {
+    Id
     username
     email
-    
   }
 }
