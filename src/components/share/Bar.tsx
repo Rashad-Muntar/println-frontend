@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {Colors} from '../../assets/Constants';
 interface Props {
   title: string;
@@ -11,6 +11,7 @@ interface Props {
   font?: number;
   color?: string;
   weight?: string;
+  onPress?: () => void
 }
 
 const Bar = ({
@@ -23,14 +24,18 @@ const Bar = ({
   color,
   isIcon,
   weight,
+  onPress
 }: Props) => {
   return (
-    <View
+    <Pressable
       style={{
         ...styles.container,
         backgroundColor: backgroundColor,
         marginBottom: marginBottom,
-      }}>
+      }}
+      onPress={onPress}
+      >
+
       <View style={styles.imgWrap}>
         {isIcon && <Image style={styles.img} source={icon} />}
         <Text style={{fontSize: font, color: color, fontWeight: weight}}>
@@ -38,7 +43,7 @@ const Bar = ({
         </Text>
       </View>
       <View>{arrow}</View>
-    </View>
+    </Pressable>
   );
 };
 

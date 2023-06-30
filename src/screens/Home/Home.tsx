@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useRef, useMemo } from 'react';
 import {Colors} from '../../assets/Constants';
 import { useSelector } from "react-redux";
 import {View, Text, StyleSheet} from 'react-native';
@@ -7,11 +7,16 @@ import Bar from '../../components/share/Bar';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CookieManager from '@react-native-cookies/cookies';
+import BottomSheetDrawer from '../../components/share/sheet';
+
+import Services from './Services';
+import BottomSheet from '@gorhom/bottom-sheet'
 import Caro from './Caro';
 
 const Home = () => {
   const user = useSelector((state:any) => state.user.currentUser)
-  console.log(user)
+  const sheetRef = useRef<BottomSheet>(null)
+  const snapPoints = useMemo(() => ['1%', '35%', '50%'], [])
 
 useEffect(() => {
   try {
@@ -23,6 +28,11 @@ useEffect(() => {
     
   }
 })
+
+const handlePresentModalPress = useCallback((index:number) => {
+  sheetRef.current?.snapToIndex(index)
+}, [])
+
 
 
   return (
@@ -51,6 +61,7 @@ useEffect(() => {
           color="white"
           isIcon={false}
           title="Make New Order"
+          onPress={() => handlePresentModalPress(1)}
           backgroundColor={Colors.light.primary}
           weight="700"
           arrow={
@@ -62,6 +73,13 @@ useEffect(() => {
           }
         />
       </View>
+      <BottomSheetDrawer onPandown={true} sheetRef={sheetRef} snaPoints={snapPoints} index={0}>
+       <View style={styles.headerArea}>
+        <Text style={styles.header}>Select Service</Text>
+       </View>
+       <View style={styles.sheetProducts}><Services /></View>
+      </BottomSheetDrawer>
+
     </View>
   );
 };
@@ -96,6 +114,21 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.Primary10,
     height: 80,
   },
+  sheetProducts:{
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  headerArea:{
+    marginVertical: 20,
+    alignItems: "flex-start",
+    width: "100%",
+    
+  },
+  header:{
+    fontSize: 18,
+    fontWeight: "bold"
+  }
 });
 
 export default Home;

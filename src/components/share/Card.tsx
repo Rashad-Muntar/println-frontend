@@ -7,15 +7,15 @@ interface Props {
   height: string | number;
   width: string | number;
   subtext?: string;
-  onPress?: () => void;
+  onPress?: () => void | undefined;
 
   icon?: any;
 }
 const Card = ({title, height, width, onPress, icon}: Props) => {
   return (
-    <Pressable onPress={onPress} style={styles.container}>
+    <Pressable onPress={onPress} style={{...styles.container, width: width, height: height}}>
       <Image style={styles.img} source={icon} />
-      <Text>{title}</Text>
+      <Text style={styles.cardtext}>{title}</Text>
     </Pressable>
   );
 };
@@ -23,21 +23,24 @@ const Card = ({title, height, width, onPress, icon}: Props) => {
 const styles = StyleSheet.create({
   container: {
     borderRadius: 20,
-    width: 100,
-    paddingVertical: 15,
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 5,
     shadowColor: '#00000',
     shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.5,
     shadowRadius: 2,
-    backgroundColor: Colors.light.Primary10,
+    backgroundColor: Colors.light.Primary80,
   },
   img: {
-    width: '40%',
-    height: '40%',
+    width: 50,
+    height: 50,
   },
+  cardtext:{
+    color: "white",
+    textAlign: "center"
+  }
 });
 
 export default Card;
