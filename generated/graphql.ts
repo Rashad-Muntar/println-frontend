@@ -134,6 +134,13 @@ export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', Id: number, username: string, email: string }> };
 
+export type CreateJobMutationVariables = Exact<{
+  input: NewJob;
+}>;
+
+
+export type CreateJobMutation = { __typename?: 'Mutation', createJob: { __typename?: 'Job', Id: number, onGoing: boolean, completed: boolean, description?: string | null, file: string } };
+
 export type MeQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
@@ -252,6 +259,43 @@ export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
 export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
 export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
+export const CreateJobDocument = gql`
+    mutation createJob($input: NewJob!) {
+  createJob(input: $input) {
+    Id
+    onGoing
+    completed
+    description
+    file
+  }
+}
+    `;
+export type CreateJobMutationFn = Apollo.MutationFunction<CreateJobMutation, CreateJobMutationVariables>;
+
+/**
+ * __useCreateJobMutation__
+ *
+ * To run a mutation, you first call `useCreateJobMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateJobMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createJobMutation, { data, loading, error }] = useCreateJobMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateJobMutation(baseOptions?: Apollo.MutationHookOptions<CreateJobMutation, CreateJobMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateJobMutation, CreateJobMutationVariables>(CreateJobDocument, options);
+      }
+export type CreateJobMutationHookResult = ReturnType<typeof useCreateJobMutation>;
+export type CreateJobMutationResult = Apollo.MutationResult<CreateJobMutation>;
+export type CreateJobMutationOptions = Apollo.BaseMutationOptions<CreateJobMutation, CreateJobMutationVariables>;
 export const MeDocument = gql`
     query me($id: Int!) {
   user(id: $id) {
