@@ -7,3 +7,10 @@ mutation createJob($input: NewJob!) {
     file
   }
 }
+
+mutation processFile($url: String!){
+  processFile(url: $url){
+    url
+    price
+  }
+}

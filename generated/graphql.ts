@@ -19,6 +19,12 @@ export type Scalars = {
   Upload: { input: any; output: any; }
 };
 
+export type File = {
+  __typename?: 'File';
+  price: Scalars['Float']['output'];
+  url: Scalars['String']['output'];
+};
+
 export type Job = {
   __typename?: 'Job';
   Id: Scalars['Int']['output'];
@@ -44,6 +50,7 @@ export type Mutation = {
   createJob: Job;
   deleteJob: Scalars['String']['output'];
   login: LoggedUser;
+  processFile: File;
   signup: User;
   updateJob: Job;
 };
@@ -61,6 +68,11 @@ export type MutationDeleteJobArgs = {
 
 export type MutationLoginArgs = {
   input: LoginUser;
+};
+
+
+export type MutationProcessFileArgs = {
+  url: Scalars['String']['input'];
 };
 
 
@@ -140,6 +152,13 @@ export type CreateJobMutationVariables = Exact<{
 
 
 export type CreateJobMutation = { __typename?: 'Mutation', createJob: { __typename?: 'Job', Id: number, onGoing: boolean, completed: boolean, description?: string | null, file: string } };
+
+export type ProcessFileMutationVariables = Exact<{
+  url: Scalars['String']['input'];
+}>;
+
+
+export type ProcessFileMutation = { __typename?: 'Mutation', processFile: { __typename?: 'File', url: string, price: number } };
 
 export type MeQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -296,6 +315,40 @@ export function useCreateJobMutation(baseOptions?: Apollo.MutationHookOptions<Cr
 export type CreateJobMutationHookResult = ReturnType<typeof useCreateJobMutation>;
 export type CreateJobMutationResult = Apollo.MutationResult<CreateJobMutation>;
 export type CreateJobMutationOptions = Apollo.BaseMutationOptions<CreateJobMutation, CreateJobMutationVariables>;
+export const ProcessFileDocument = gql`
+    mutation processFile($url: String!) {
+  processFile(url: $url) {
+    url
+    price
+  }
+}
+    `;
+export type ProcessFileMutationFn = Apollo.MutationFunction<ProcessFileMutation, ProcessFileMutationVariables>;
+
+/**
+ * __useProcessFileMutation__
+ *
+ * To run a mutation, you first call `useProcessFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProcessFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [processFileMutation, { data, loading, error }] = useProcessFileMutation({
+ *   variables: {
+ *      url: // value for 'url'
+ *   },
+ * });
+ */
+export function useProcessFileMutation(baseOptions?: Apollo.MutationHookOptions<ProcessFileMutation, ProcessFileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ProcessFileMutation, ProcessFileMutationVariables>(ProcessFileDocument, options);
+      }
+export type ProcessFileMutationHookResult = ReturnType<typeof useProcessFileMutation>;
+export type ProcessFileMutationResult = Apollo.MutationResult<ProcessFileMutation>;
+export type ProcessFileMutationOptions = Apollo.BaseMutationOptions<ProcessFileMutation, ProcessFileMutationVariables>;
 export const MeDocument = gql`
     query me($id: Int!) {
   user(id: $id) {

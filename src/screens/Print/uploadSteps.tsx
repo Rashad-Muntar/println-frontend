@@ -3,15 +3,16 @@ import { View, StyleSheet } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useCreateJobMutation } from '../../../generated/graphql';
 import Bar from '../../components/share/Bar'
+import { useProcessFileMutation } from '../../../generated/graphql';
 import DocumentPicker from 'react-native-document-picker';
 import GetFileSize from '../../utils/GetFileSize';
 
 // import WordReader from './WordReader';
-import PDFReader from './PdfReader';
+// import PDFReader from './PdfReader';
 
 
 const UploadSteps = () => {
-    const [login] = useCreateJobMutation();
+    const [file] = useProcessFileMutation();
     const [fileUri, setFileUri] = useState("");
 
 
@@ -22,7 +23,13 @@ const UploadSteps = () => {
           });
     
           setFileUri(res.uri);
-          GetFileSize(fileUri)
+          // GetFileSize(fileUri)
+         const response = await file({
+            variables:{
+              url: fileUri
+            }
+          })
+          console.log(response)
         } catch (err) {
           if (DocumentPicker.isCancel(err)) {
             console.log('User canceled the picker');
